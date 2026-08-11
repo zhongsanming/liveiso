@@ -1,0 +1,19 @@
+image: nixos/nix:2.24.2
+
+variables:
+  NIX_CONFIG: "experimental-features = nix-command flakes"
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: $CI_PIPELINE_SOURCE == "web"
+
+build:
+  stage: build
+  script:
+    - bash scripts/build-and-collect.sh .#live dist
+  artifacts:
+    name: "$CI_COMMIT_REF_SLUG-live-iso"
+    paths:
+      - dist/
+    expire_in: 4 weeks

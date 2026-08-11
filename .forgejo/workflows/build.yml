@@ -1,0 +1,25 @@
+name: Build live ISO
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            access-tokens = code.forgejo.org=${{ secrets.FORGEJO_TOKEN }}
+
+      - name: Build and collect ISO
+        run: bash scripts/build-and-collect.sh .#live dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: live-iso
+          path: dist/*.iso
