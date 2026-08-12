@@ -5,7 +5,9 @@
     "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
   ];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "26.05";
+
+  users.users.root.password = "nixos";
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = lib.mkForce [
