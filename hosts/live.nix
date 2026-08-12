@@ -26,6 +26,9 @@
     git
     nixos-install-tools
     vim
+    tmux
+    fish
+    helix
   ];
 
   isoImage.makeEfiBootable = true;
