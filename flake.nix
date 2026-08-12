@@ -17,14 +17,14 @@
       modules = [ ./hosts/live.nix ];
 
       buildIso = system: format: nixos-generators.nixosGenerate {
-        inherit system format;
-        inherit modules;
+        inherit system format modules;
       };
-    in {
-      packages = forAllSystems (system: {
+    in
+    {
+      packages = forAllSystems (system: rec {
+        default = live;
         live = buildIso system "iso";
         installer = buildIso system "install-iso";
-        default = buildIso system "iso";
       });
 
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
