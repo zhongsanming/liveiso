@@ -3,28 +3,24 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, nixos-generators, ... }:
+  outputs = { self, nixpkgs, ... }:
     let
       systems = [ "x86_64-linux" "aarch64-linux" ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
 
       modules = [ ./hosts/live.nix ];
 
-      buildIso = system: format: nixos-generators.nixosGenerate {
-        inherit system format modules;
-      };
+      buildIso = system:
+        (nixpkgs.lib.nixosSystem {
+          inherit system modules;
+        }).config.system.build.isoImage;
     in
     {
-      packages = forAllSystems (system: rec {
-        default = live;
-        live = buildIso system "iso";
-        installer = buildIso system "install-iso";
+      packages = forAllSystems (system: {
+        default = buildIso system;
+        live = buildIso system;
       });
 
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
