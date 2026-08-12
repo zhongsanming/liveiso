@@ -26,5 +26,7 @@
         installer = buildIso system "install-iso";
         default = buildIso system "iso";
       });
+
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);
     };
 }
