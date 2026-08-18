@@ -11,10 +11,10 @@
       },
       "original": {
         "owner": "NixOS",
+        "ref": "nixos-25.05",
         "repo": "nixpkgs",
         "type": "github"
-      },
-      "ref": "nixos-25.05"
+      }
     },
     "root": {
       "inputs": {
