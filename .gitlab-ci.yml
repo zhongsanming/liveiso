@@ -15,7 +15,9 @@ build:
     - if: $CI_COMMIT_TAG
     - if: $CI_PIPELINE_SOURCE == "web"
   script:
-    - bash scripts/build-and-collect.sh .#live dist
+    - nix build .#live -o result
+    - mkdir -p dist
+    - find result -type f -name '*.iso' -exec cp -v {} dist/ \;
   artifacts:
     name: "$CI_COMMIT_REF_SLUG-live-iso"
     paths:

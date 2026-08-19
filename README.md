@@ -10,29 +10,18 @@ Build the default live ISO:
 nix build .#live -o result
 ```
 
-The generated ISO is written below `result`; the exact layout can vary, so use
-`scripts/build-and-collect.sh` when you need a flat `dist/` directory for CI
-artifacts. Flash the ISO to a USB stick and boot it on the target machine.
+The generated ISO is written below `result/iso/`. Flash the ISO to a USB stick
+and boot it on the target machine.
 
 Run `nix flake lock` once and commit `flake.lock` so future builds and CI runs
 use the same dependency revisions.
 
 ## Configuration
 
-Edit `hosts/live.nix` to add packages, users, SSH keys, filesystem support, or
-other NixOS options. The file starts from the official minimal installation CD
-module, so it remains useful for installing NixOS from the booted ISO.
-
-## Artifact Build Script
-
-`scripts/build-and-collect.sh` builds an ISO and copies every generated `.iso`
-file into `dist/`:
-
-```console
-bash scripts/build-and-collect.sh .#live dist
-```
-
-This keeps the CI workflows independent of the NixOS ISO output layout.
+Edit the `liveModule` section in `flake.nix` to add packages, users, SSH keys,
+filesystem support, or other NixOS options. It starts from the official minimal
+installation CD module, so it remains useful for installing NixOS from the
+booted ISO.
 
 ## CI/CD
 

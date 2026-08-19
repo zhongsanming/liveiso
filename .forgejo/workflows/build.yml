@@ -17,7 +17,10 @@ jobs:
             access-tokens = code.forgejo.org=${{ secrets.FORGEJO_TOKEN }}
 
       - name: Build and collect ISO
-        run: bash scripts/build-and-collect.sh .#live dist
+        run: |
+          nix build .#live -o result
+          mkdir -p dist
+          find result -type f -name '*.iso' -exec cp -v {} dist/ \;
 
       - uses: actions/upload-artifact@v4
         with:
