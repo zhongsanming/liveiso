@@ -21,6 +21,7 @@
 
           users.users.root.password = "nixos";
 
+          boot.zfs.forceImportRoot = lib.mkForce false;
           boot.kernelPackages = pkgs.linuxPackages_latest;
           boot.supportedFilesystems = lib.mkForce [
             "btrfs"
@@ -46,7 +47,8 @@
           ];
 
           isoImage.makeEfiBootable = true;
-          isoImage.makeUsbBootable = true;
+          isoImage.makeUsbBootable = lib.mkForce false;
+          isoImage.forceTextMode = true;
         };
 
       modules = [ liveModule ];
