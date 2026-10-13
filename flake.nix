@@ -35,7 +35,7 @@
 
           networking.hostName = "nixos-live";
           networking.networkmanager.enable = lib.mkDefault true;
-          networking.wireless.enable = false;
+          networking.wireless.enable = lib.mkForce false;
 
           environment.systemPackages = with pkgs; [
             git
