@@ -22,7 +22,7 @@ jobs:
         run: |
           nix build .#live -o result
           mkdir -p dist
-          find result -type f -name '*.iso' -exec cp -v {} dist/ \;
+          find -L result -type f -name '*.iso' -exec cp -v {} dist/ \;
 
       - name: Upload ISO artifact
         uses: actions/upload-artifact@v7
